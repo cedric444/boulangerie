@@ -13,15 +13,17 @@ public class Produit {
     private int id;
     private String nom;
     private String description;
+    private float prix;
     private String photo;
 
     public Produit() {
     }
 
-    public Produit(int id, String nom, String description, String photo) {
+    public Produit(int id, String nom, String description, float prix, String photo) {
         this.id = id;
         this.nom = nom;
         this.description = description;
+        this.prix = prix;
         this.photo = photo;
     }
 
@@ -47,6 +49,14 @@ public class Produit {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public float getPrix() {
+        return prix;
+    }
+
+    public void setPrix(float prix) {
+        this.prix = prix;
     }
 
     public String getPhoto() {

@@ -3,10 +3,12 @@ package com.cp.boulangerie.model;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
 
 import java.util.Date;
 
 @Entity
+@IdClass(ReservationId.class)
 public class Reservation {
 
     @Id
