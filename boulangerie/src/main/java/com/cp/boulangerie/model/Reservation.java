@@ -1,20 +1,19 @@
 package com.cp.boulangerie.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.IdClass;
+import jakarta.persistence.*;
 
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
-@IdClass(ReservationId.class)
+@AssociationOverrides({
+        @AssociationOverride(name="pk_client", joinColumns = @JoinColumn(name="client_id")),
+        @AssociationOverride(name="pk_produit", joinColumns = @JoinColumn(name="produit_id"))
+})
 public class Reservation {
 
-    @Id
-    private long id_client;
-    @Id
-    private int id_produit;
+    @EmbeddedId
+    private ReservationId pk = new ReservationId();
     @Column(name = "date_reservation")
     private Date dateReservation;
     @Column(name = "date_retrait")
@@ -23,27 +22,12 @@ public class Reservation {
     public Reservation() {
     }
 
-    public Reservation(long id_client, int id_produit, Date dateReservation, Date dateRetrait) {
-        this.id_client = id_client;
-        this.id_produit = id_produit;
-        this.dateReservation = dateReservation;
-        this.dateRetrait = dateRetrait;
+    public ReservationId getPk(){
+        return pk;
     }
 
-    public long getId_client() {
-        return id_client;
-    }
-
-    public void setId_client(long id_client) {
-        this.id_client = id_client;
-    }
-
-    public int getId_produit() {
-        return id_produit;
-    }
-
-    public void setId_produit(int id_produit) {
-        this.id_produit = id_produit;
+    public void setPk(ReservationId pk){
+        this.pk = pk;
     }
 
     public Date getDateReservation() {
@@ -60,5 +44,28 @@ public class Reservation {
 
     public void setDateRetrait(Date dateRetrait) {
         this.dateRetrait = dateRetrait;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Reservation other = (Reservation) o;
+        if(pk == null) {
+            if(other.pk != null) {
+                return false;
+            }
+        }else if(!pk.equals(other.pk)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int prime = 1;
+        int result = 31;
+        result = prime * result + ((pk == null) ? 0 : pk.hashCode());
+        return result;
     }
 }
